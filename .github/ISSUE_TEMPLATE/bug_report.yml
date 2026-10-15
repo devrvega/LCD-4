@@ -1,0 +1,87 @@
+name: Bug report
+description: Something in LCD-4 doesn't work the way the manual says, or it crashes, clicks or loses your work.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting it. Only the first three questions are needed; anything else you can add (photos or
+        a short video of the screen, the crash screen's address) makes it much quicker to find.
+
+  - type: input
+    id: version
+    attributes:
+      label: LCD-4 version
+      description: At the bottom left of the Setup page (GLO), or on the start screen ("v0.1.0").
+      placeholder: "e.g. 0.1.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you saw or heard, and what you expected instead.
+      placeholder: "e.g. With the Arp sound on track 3, holding a chord and pressing REC stops the arpeggio..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: How can it be made to happen again?
+      description: The steps from switching on, as far as you know them. "It happens sometimes" is useful too.
+      placeholder: |
+        1. Load the Pocket demo (Setup, Demo, hold SAVE)
+        2. Turn ALGORITHM to track 3
+        3. ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Optional. Which part of LCD-4 is it in?
+      options:
+        - Drums and kits
+        - Synth sounds
+        - Patterns, chains and steps
+        - Writing (live, step by step, locks)
+        - Chords
+        - Punch-in effects, delay, reverb
+        - Mixer and tracks
+        - Screen and scenes
+        - Controls (buttons, keys, knobs)
+        - MIDI and sync
+        - Saving and projects
+        - Installing, the emulator or the manual
+        - Something else
+    validations:
+      required: false
+
+  - type: textarea
+    id: crash
+    attributes:
+      label: Crash screen
+      description: Optional. If a red CRASH screen appeared, or RESTARTED AFTER A CRASH, the address it showed (PC ...).
+      placeholder: "e.g. PC 0201A4C0"
+    validations:
+      required: false
+
+  - type: textarea
+    id: setup
+    attributes:
+      label: Your setup
+      description: Optional. How you installed LCD-4 (web installer, command line, built it yourself), MIDI gear and clock, and the computer and browser if it's about installing or the emulator.
+    validations:
+      required: false
+
+  - type: textarea
+    id: more
+    attributes:
+      label: Anything else
+      description: Optional. Photos or a video of the screen, a recording, links. Drag files into this box.
+    validations:
+      required: false

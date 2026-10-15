@@ -1,0 +1,39 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Everything the build and the tests need on a GitHub runner (Ubuntu, x86-64: the JieLi toolchain runs natively,
+# no Docker): Python with Pillow, the JieLi toolchain, the three AC79 SDK files, and Emscripten for the browser
+# emulator. The toolchain and the SDK files are cached between runs.
+name: LCD-4 build setup
+description: Python, the JieLi toolchain, the AC79 SDK files and Emscripten
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v7
+      with:
+        python-version: "3.12"
+    - uses: actions/setup-node@v7
+      with:
+        node-version: "22"
+    - name: Python packages
+      shell: bash
+      run: pip install Pillow mido
+    - name: JieLi toolchain (cached)
+      id: toolchain
+      uses: actions/cache@v6
+      with:
+        path: ~/.jieli
+        key: jieli-linux-toolchain-v1
+    - name: JieLi toolchain (download)
+      if: steps.toolchain.outputs.cache-hit != 'true'
+      shell: bash
+      run: sh tools/get_toolchain.sh
+    - name: AC79 SDK files (cached)
+      uses: actions/cache@v6
+      with:
+        path: ~/fw-AC79_AIoT_SDK
+        key: ac79-sdk-files-AC79NN_SDK_V1.2.1_2023-12-13
+    - name: AC79 SDK files (checked against their SHA-256)
+      shell: bash
+      run: sh tools/get_sdk_files.sh
+    - uses: mymindstorm/setup-emsdk@v16
+      with:
+        version: 3.1.74

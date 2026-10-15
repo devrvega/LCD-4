@@ -1,0 +1,45 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# A tag vX.Y.Z makes a release: the tests on a development build, then the release build (identity
+# FM-1_4XXYYZZ, the version on the FM-1's screen), and a GitHub release with lcd4-X.Y.Z.fwsc and its notes
+# from CHANGELOG.md. The Pages workflow then puts the site up for it.
+#   git tag v0.2.0 && git push origin v0.2.0
+name: Release
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "An existing tag to release again (vX.Y.Z)"
+        required: true
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    env:
+      TAG: ${{ inputs.tag || github.ref_name }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+      - uses: ./.github/actions/setup
+      - name: The version, from the tag
+        run: |
+          VERSION="${TAG#v}"
+          echo "$VERSION" | grep -Eq '^[0-9]{1,2}\.[0-9]{1,2}(\.[0-9]{1,2})?(-[A-Za-z0-9]+)?$' ||
+            { echo "tag $TAG: use vX.Y or vX.Y.Z (up to two digits each)"; exit 1; }
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+      - name: Tests, on a development build
+        run: ./build.sh && AC79_SDK=$HOME/fw-AC79_AIoT_SDK sh tests/run_tests.sh
+      - name: The release build
+        run: ./build.sh --release "$VERSION"
+      - name: The release
+        run: |
+          python3 tools/release_notes.py "$VERSION" "$GITHUB_REPOSITORY" > notes.md
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "build/lcd4-$VERSION.fwsc" --clobber
+          else
+            gh release create "$TAG" "build/lcd4-$VERSION.fwsc" --title "LCD-4 $VERSION" --notes-file notes.md --verify-tag
+          fi

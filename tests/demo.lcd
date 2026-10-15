@@ -1,0 +1,41 @@
+# the four demo songs, as WAV files (not part of tests/run_tests.sh):
+#   build/host/lcd4_host tests/demo.lcd build/demo
+master 2400
+tap GLO
+wav 1-pocket.wav
+tap PLAY
+wait 32000
+tap PLAY
+wait 1500
+wavstop
+turn K4 1
+press SAVE
+wait 1700
+release SAVE
+wav 2-arcade.wav
+tap PLAY
+wait 28000
+tap PLAY
+wait 1500
+wavstop
+turn K4 1
+press SAVE
+wait 1700
+release SAVE
+wav 3-house.wav
+tap PLAY
+wait 32000
+tap PLAY
+wait 1500
+wavstop
+turn K4 1
+press SAVE
+wait 1700
+release SAVE
+wav 4-lofi.wav
+tap PLAY
+wait 30000
+tap PLAY
+wait 2500
+wavstop
+expect peak_db_max -0.5

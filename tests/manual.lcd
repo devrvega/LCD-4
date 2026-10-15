@@ -1,0 +1,66 @@
+# the manual's screenshots (tools/manual_shots.sh): the first demo playing, a screen a page and a scene
+wait 400
+shot screen-boot.png
+tap PLAY
+wait 2300
+shot screen-acid.png
+turn ALGO -1
+wait 1210
+shot screen-drums.png
+turn ALGO 2
+wait 900
+shot screen-poly.png
+turn ALGO 1
+wait 1000
+shot screen-arcade.png
+turn ALGO -2
+tap HOME
+wait 700
+shot screen-patterns.png
+tap HOME
+tap SEQ
+key w2 down
+spin K1 3
+wait 400
+shot screen-step.png
+key w2 up
+tap SEQ
+tap ENV
+wait 500
+shot screen-track.png
+tap ENV
+tap ARP
+wait 500
+shot screen-chords.png
+tap ARP
+tap SEL
+wait 500
+shot screen-mixer.png
+tap SEL
+tap FX
+key w0 down
+wait 600
+shot screen-fx.png
+key w0 up
+tap FX
+tap GLO
+wait 1500
+shot screen-setup.png
+tap GLO
+press FX
+wait 1100
+shot screen-help.png
+release FX
+tap PLAY
+turn ALGO -1
+turn PRESET 1
+wait 300
+tap PLAY
+wait 1400
+shot screen-909.png
+turn PRESET 1
+wait 1200
+shot screen-arcadekit.png
+turn PRESET 1
+wait 1200
+shot screen-box.png

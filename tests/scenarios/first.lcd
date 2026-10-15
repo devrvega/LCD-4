@@ -1,0 +1,199 @@
+# LCD-4: the first things a player does. The first demo is there at boot; tracks, sounds, the drum parts and
+# their steps, a synth's steps, patterns and chains, copy and clear, chords, effects, mutes, writing live and
+# step by step, saving, and a project from IND-1 ignored.
+wait 500
+expect playing 0
+expect view 2
+expect track 1
+expect sound 0
+expect chain 4
+expect chords 4
+shot boot.png
+tap PLAY
+until playing 1 1000
+wait 1500
+shot playing.png
+# tracks (ALGORITHM) and sounds (PRESETS)
+turn ALGO -1
+expect track 0
+turn ALGO 1
+expect track 1
+turn PRESET 1
+expect sound 1
+turn PRESET -1
+expect sound 0
+tap PLAY
+until playing 0 1000
+# the drums: a black key picks the part (and plays it), a white key toggles its step (when let go)
+turn ALGO -1
+expect track 0
+tapkey b1
+expect part 1
+expect hit1 4112
+tapkey w0
+expect hit1 4113
+tapkey w0
+expect hit1 4112
+# ENV + a white key: an accent; EDIT + a black key: the part's row cleared
+press ENV
+tapkey w6
+release ENV
+expect accents 4177
+expect hit1 4176
+press EDIT
+tapkey b1
+release EDIT
+expect hit1 0
+expect view 2
+# held drum step + KNOB 1: its tune locked
+key w4 down
+turn K1 5
+key w4 up
+expect hit1 0
+shot drum-lock.png
+# a synth's steps (SEQ): hold an empty step and turn KNOB 1: it takes the hand, moved
+turn ALGO 1
+tap SEQ
+expect view 1
+key w3 down
+spin K1 2
+key w3 up
+expect note1.3 50
+tapkey w3
+expect note1.3 0
+tapkey w5
+expect note1.5 48
+# OCT- with a step held: a slide; OCT+: a ratchet
+key w5 down
+tap OCT-
+tap OCT+
+tap OCT+
+key w5 up
+expect fl1.5 34
+shot steps.png
+tap SEQ
+expect view 2
+# writing step by step (REC, stopped): keys go on the cursor's step, EDIT is a rest
+tap REC
+expect rec 1
+tapkey 7
+expect note1.0 48
+tapkey 9
+expect note1.1 50
+tap EDIT
+tapkey 11
+expect note1.3 52
+key 7 down
+key 11 down
+key 11 up
+key 7 up
+expect note1.4 48
+expect chordnotes1.4 2
+tap REC
+expect rec 0
+# patterns (HOME): a key picks one; HOME held and keys: a chain
+tap HOME
+expect view 0
+tapkey w2
+expect pat 2
+expect chain 0
+press HOME
+tapkey w0
+tapkey w1
+tapkey w0
+release HOME
+expect chain 3
+expect pat 0
+expect view 0
+# SAVE + a pattern: this one copied there; EDIT + a pattern: cleared
+press SAVE
+tapkey w5
+release SAVE
+press HOME
+tapkey w5
+release HOME
+expect pat 5
+expect note1.0 48
+press EDIT
+tapkey w5
+release EDIT
+expect note1.0 0
+press HOME
+tapkey w0
+tapkey w1
+tapkey w0
+release HOME
+expect chain 3
+expect pat 0
+shot patterns.png
+# chords (ARP): a key, one chord; held and keys, a chain; EDIT + a key: off
+tap ARP
+expect view 4
+tapkey w5
+expect chords 1
+press ARP
+tapkey w0
+tapkey w3
+tapkey w4
+release ARP
+expect chords 3
+shot chords.png
+# the mixer: keys 1-4 mute
+tap SEL
+expect view 5
+tapkey w0
+expect mute 1
+tapkey w0
+expect mute 0
+# effects, while held (and playing)
+tap PLAY
+until playing 1 1000
+wait 300
+press FX
+key w8 down
+wait 400
+expect fx 9
+shot fx.png
+key w8 up
+release FX
+wait 300
+expect fx 0
+# writing live: a key while playing goes in (on track 3)
+tap SEL
+tap LFO
+expect view 2
+turn ALGO 1
+expect track 2
+tap REC
+wait 200
+tapkey 14
+wait 300
+expect recorded >0
+tap REC
+tap PLAY
+until playing 0 1000
+# saved, and back after a restart
+tap SAVE
+expect dirty 0
+expect store_writes >2
+reboot
+wait 300
+expect chain 3
+expect chords 3
+expect note1.0 48
+# IND-1's project in the same place: not ours, the first demo instead
+storeind
+reboot
+wait 300
+expect chords 4
+expect chain 4
+expect note1.0 36
+# the first demo, saved by itself while stopped (all of it): after a restart its patterns are still there
+wait 5000
+expect dirty 0
+reboot
+wait 300
+expect chain 4
+expect note1.0 36
+expect hit1 4112
+expect peak_db_max 0

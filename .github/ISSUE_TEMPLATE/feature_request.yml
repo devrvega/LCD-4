@@ -1,0 +1,99 @@
+name: Feature request
+description: Suggest something new for LCD-4, or a change to something it already does.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to suggest something. LCD-4 runs on the FM-1's small processor and its fixed
+        panel (27 keys, 14 buttons, 7 encoders, the MASTER knob, a 240 x 240 screen), so the more you can say
+        about **what you want to do with it** and **how you'd play it on the FM-1**, the easier it is to judge.
+        Only the first three questions are needed; answer what you can.
+
+        Found something broken instead? Please open a separate issue describing the problem, rather than a
+        feature request.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which part of LCD-4 is this about?
+      options:
+        - Drums and kits
+        - Synth sounds
+        - Patterns, chains and steps
+        - Writing (live, step by step, locks)
+        - Chords
+        - Punch-in effects, delay, reverb
+        - Mixer and tracks
+        - Screen and scenes
+        - Controls (buttons, keys, knobs)
+        - MIDI and sync
+        - Saving and projects
+        - Installer, emulator or manual
+        - Something else
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like LCD-4 to do?
+      description: Describe the feature or change. A short example helps.
+      placeholder: "e.g. A fifth demo song in a trap style, with the Boom sound sliding between notes."
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why would it help you?
+      description: What are you trying to make or play, and what gets in the way today?
+      placeholder: "e.g. I play live with LCD-4 and need to switch patterns without stopping..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: controls
+    attributes:
+      label: How would you play it on the FM-1?
+      description: Optional. Which buttons, keys or knobs would you use, and on which page? For example "hold SEL and press a white key".
+      placeholder: "e.g. On the Mixer page, white keys 9-12 could solo the tracks."
+    validations:
+      required: false
+
+  - type: textarea
+    id: reference
+    attributes:
+      label: Is it like something on other gear?
+      description: Optional. If another groovebox, synth or pocket operator does this, say which and how. Links to manuals or videos are welcome.
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Anything else you've tried or considered?
+      description: Optional. Workarounds you use now, or other ways it could work.
+    validations:
+      required: false
+
+  - type: input
+    id: version
+    attributes:
+      label: LCD-4 version
+      description: Optional. The version you have installed (from the release or the installer page), if you know it.
+      placeholder: "e.g. 0.1"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you submit
+      options:
+        - label: I looked through the existing issues for this idea.
+          required: false
+        - label: I understand that features needing more processing or memory than the FM-1 has may not be possible.
+          required: false

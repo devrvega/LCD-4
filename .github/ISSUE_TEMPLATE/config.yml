@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: The manual
+    url: https://github.com/devrvega/LCD-4/blob/main/docs/MANUAL.md
+    about: Every control, page and sound, and Troubleshooting (including recovering an FM-1 that won't start).
+  - name: Try LCD-4 in the browser
+    url: https://devrvega.github.io/LCD-4/emu/
+    about: The same code as the firmware, with sound, no FM-1 needed. Handy to check how something behaves.

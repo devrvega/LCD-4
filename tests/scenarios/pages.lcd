@@ -1,0 +1,97 @@
+# LCD-4: every page (SELECT), the tempo (HOME + SELECT), the help cards, the octaves, the drums' part on OCT,
+# EDIT + REC, the FX page's keys, and a demo song from Setup.
+wait 400
+turn SELECT -3
+expect view 0
+shot page0.png
+turn SELECT 1
+expect view 1
+turn SELECT 2
+expect view 3
+shot page3.png
+turn SELECT 2
+expect view 5
+turn SELECT 1
+expect view 6
+shot page6.png
+turn SELECT 1
+expect view 7
+shot page7.png
+turn SELECT 3
+expect view 7
+turn SELECT -5
+expect view 2
+# the tempo: HOME + SELECT
+press HOME
+turn SELECT 4
+release HOME
+expect par0 122
+expect view 2
+# a help card: a button held alone; letting go of it then does nothing else
+press ARP
+wait 1100
+shot help-arp.png
+release ARP
+expect view 2
+press REC
+wait 1100
+shot help-rec.png
+release REC
+expect rec 0
+# octaves on a synth track; the part on the drums
+tap OCT+
+expect oct 0
+tap OCT-
+tap OCT-
+expect oct -2
+tap OCT+
+expect oct -1
+turn ALGO -1
+expect track 0
+expect part 0
+tap OCT+
+tap OCT+
+expect part 2
+tap OCT-
+expect part 1
+# EDIT + REC: the track cleared in this pattern
+expect hit0 1089
+press EDIT
+tap REC
+release EDIT
+expect hit0 0
+expect hit1 0
+expect rec 0
+# the FX page: its keys are the effects, held
+tap FX
+expect view 6
+tap PLAY
+until playing 1 1000
+key w12 down
+wait 500
+expect fx 13
+key w12 up
+wait 400
+expect fx 0
+tap PLAY
+until playing 0 1000
+tap FX
+expect view 2
+# Setup: a demo song (KNOB 4), in by holding SAVE
+tap GLO
+expect view 7
+turn K4 2
+press SAVE
+wait 1700
+release SAVE
+wait 100
+expect par0 124
+expect chords 4
+expect hit0 4369
+shot demo-house.png
+tap PLAY
+until playing 1 1000
+wait 3000
+shot house-playing.png
+expect peak_db_max -1
+expect peak_db_min -30

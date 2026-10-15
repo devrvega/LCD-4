@@ -1,0 +1,35 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Every push and pull request: the firmware built, every test run (the instrument, the platform, the update
+# path against the package, the whole app in the simulator, the browser build), and the package kept as an
+# artifact to download and try. Forks get the same, nothing to set up.
+name: Build and test
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - name: Firmware
+        run: ./build.sh
+      - name: Tests
+        run: AC79_SDK=$HOME/fw-AC79_AIoT_SDK sh tests/run_tests.sh
+      - name: The tests' screenshots and logs, if something failed
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-output
+          path: |
+            build/host/*.log
+            build/scenarios/
+      - name: The firmware (a development build, identity FM-1_400)
+        uses: actions/upload-artifact@v7
+        with:
+          name: lcd4-dev-${{ github.sha }}
+          path: build/lcd4.fwsc
