@@ -1504,7 +1504,7 @@ static void draw_steps(void)
 /* the body: the four tracks (their sounds, what they play, muted), then the page's knobs */
 static void draw_knobs(void)
 {
-    uint32_t h = hash(2166136261u, ui.view | (uint32_t)ui.touched << 8 | (uint32_t)proj.track << 12 | (uint32_t)en_cfg.mute << 16 |
+    uint32_t h = hash(2166136261u, ui.view | (uint32_t)(uint8_t)ui.touched << 8 | (uint32_t)proj.track << 12 | (uint32_t)en_cfg.mute << 16 |
                                        (uint32_t)proj.part << 20), i;
     int now_touch = plat_ms() < ui.touch_until, held = steps_held() != 0;
     int t;

@@ -2,6 +2,11 @@
 
 Each release's notes come from its section here (`tools/release_notes.py`). The newest is first.
 
+## 0.1.1 — 2026-10-16
+
+- **Fixed:** the panel under the screen redraws when a track is muted or unmuted, or another track or drum
+  part is picked. After a change of page it could keep showing the old state until a knob was turned.
+
 ## 0.1.0 — 2026-10-15
 
 The first release.
