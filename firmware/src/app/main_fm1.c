@@ -427,6 +427,8 @@ static void fm1_main(void)
         memset(&en_dbg, 0, sizeof en_dbg);
         en_dbg.magic = DBG_MAGIC;
     }
+    en_dbg.in_audio = 0;                            /* (kept through a reset: a crash in the audio interrupt left it
+                                                     * set, and USB waits for it to clear; safe mode has no audio) */
     if (safe_mode)
         safe_main();                                /* never returns */
     if (fm1_crash.magic == FM1_CRASH_MAGIC && fm1_crash.count != en_dbg.crash_seen) {

@@ -2,6 +2,13 @@
 
 Each release's notes come from its section here (`tools/release_notes.py`). The newest is first.
 
+## 0.1.2 — 2026-10-16
+
+- **Fixed:** safe mode can be reached over USB again after a crash. If the FM-1 crashed while it was making sound,
+  safe mode came up with USB off, so neither the web installer nor M-UPGRADE could find it until it was switched
+  off and on. (The same fix as SEQ-4 0.1.0's; tried on an FM-1: two crashes on purpose, safe mode, then an install
+  from it.) Nothing else changes.
+
 ## 0.1.1 — 2026-10-16
 
 - **Fixed:** the panel under the screen redraws when a track is muted or unmuted, or another track or drum
