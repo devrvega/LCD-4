@@ -108,3 +108,5 @@ GPL-3.0-only; see [LICENSING.md](LICENSING.md).
 M-VAVE and FM-1 are trademarks of their owners, as are the instruments' names. LCD-4 is not affiliated
 with M-VAVE, Teenage Engineering, Nintendo, the instruments' makers, Charles Vestal or Hügelton
 Instruments; its sounds, scenes and characters are its own.
+
+You can also try LCD 4 in the browser, no flashing needed, in the free community [FM-1 Emulator](https://fm1-emulator.atst.tools/).
