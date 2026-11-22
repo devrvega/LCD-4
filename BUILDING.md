@@ -44,7 +44,7 @@ On Linux x86-64 the toolchain runs natively and Docker is not needed.
 `JIELI_TOOLCHAIN` and `AC79_SDK` override the default locations
 (`~/.jieli/toolchain`, `~/fw-AC79_AIoT_SDK`).
 
-`./build.sh --release 0.1` makes a release build; the package is `build/lcd4-0.1.fwsc`.
+`./build.sh --release 1.0` makes a release build; the package is `build/lcd4-1.0.fwsc`.
 
 `./build.sh --bench` makes a development build (`build/lcd4-bench.fwsc`) that also takes heavy test songs
 over SysEx, to measure the audio load on the FM-1 itself. Every build answers the load query: send
