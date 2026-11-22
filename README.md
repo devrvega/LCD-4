@@ -9,6 +9,9 @@ patterns you chain together, with chords the synths follow and sixteen punch-in 
 synths that live in a calculator's body. Each sound has its own little LCD game on the screen, in the manner
 of the old handheld games, and it moves with the music.
 
+**Version 1.0** is the first release marked production ready. What changed in each release is in the
+[changelog](CHANGELOG.md).
+
 ![LCD-4 on the FM-1's screen: the drummer, the lab, the sunset, the platform game, the monster, the rocket, the submarine](docs/img/lcd4.gif)
 
 | | |

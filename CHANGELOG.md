@@ -2,8 +2,11 @@
 
 Each release's notes come from its section here (`tools/release_notes.py`). The newest is first.
 
-## Unreleased
+## 1.0.0 — 2026-11-22
 
+- **Production ready:** 1.0 is the first release of LCD-4 marked as ready for everyday use. It includes the fixes
+  below.
+- **Documentation:** the manual says how long a step put in while stopped is heard.
 - **Fixed:** a step put in on a synth track while stopped, to hear it, sounded until something stopped it. It is
   now heard for a third of a second. (The note was never let go, so it also sat in the track's held keys, and the
   next key played was taken for a slide from it.)
