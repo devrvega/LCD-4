@@ -448,6 +448,29 @@ static void set_step_knob(int i, int v)          /* a held step's value (all the
     mark_pat(cur_pat());
 }
 
+/* a step put in while stopped is heard for a moment: its notes go on, and off again PREVIEW_MS later (a note left
+ * on would sound until something stopped it, and sit in the track's held keys, making the next key a slide) */
+#define PREVIEW_MS 300u
+static struct { uint8_t trk, n, note[EN_NNOTE]; uint32_t t; } preview_st;
+static void preview_off(void)
+{
+    int k;
+    for (k = 0; k < preview_st.n; k++)
+        en_note(preview_st.trk, preview_st.note[k], 0, 0);
+    preview_st.n = 0;
+}
+static void preview_on(int trk, const uint8_t *notes)
+{
+    int k;
+    preview_off();
+    preview_st.trk = (uint8_t)trk;
+    for (k = 0; k < EN_NNOTE && notes[k]; k++) {
+        en_note(trk, notes[k], 1, 0);
+        preview_st.note[preview_st.n++] = notes[k];
+    }
+    preview_st.t = plat_ms();
+}
+
 static void step_toggle(int s)
 {
     en_pat_t *p = patp();
@@ -474,8 +497,7 @@ static void step_toggle(int s)
             e->len = 4;
             e->fl = 0;
             if (!en_playing)                     /* stopped: hear what went in */
-                for (k = 0; k < EN_NNOTE && e->note[k]; k++)
-                    en_note(trk(), e->note[k], 1, 0);
+                preview_on(trk(), e->note);
         }
     }
     mark_pat(cur_pat());
@@ -729,7 +751,7 @@ static void midi_in(void)
         midi_rx_count++;
         if (st == 0xF8u || st == 0xFAu || st == 0xFBu || st == 0xFCu) {
             en_clock(st == 0xF8u ? EN_CLK_TICK : st == 0xFAu ? EN_CLK_START : st == 0xFBu ? EN_CLK_CONTINUE : EN_CLK_STOP);
-        } else if ((st & 0xE0u) == 0x80u && ch < EN_NTRACK) {
+        } else if ((st & 0xE0u) == 0x80u && (ch < EN_NTRACK || ch == 9)) {   /* (channel 10: the drums, as the manual says) */
             int on = (st & 0xF0u) == 0x90u && v;
             if (ch == 0 || ch == 9) {
                 int p;
@@ -978,6 +1000,8 @@ static void input(void)
     int32_t e;
     ch = btn ^ ui.btn;
     ui.btn = btn;
+    if (preview_st.n && (int32_t)(plat_ms() - preview_st.t) >= (int32_t)PREVIEW_MS)
+        preview_off();                          /* (the step's preview, let go) */
     if ((btn & octs) == octs)                   /* both held: the update mode's countdown */
         ui.btn_used |= octs;
     for (i = 0; i < NB; i++) {
