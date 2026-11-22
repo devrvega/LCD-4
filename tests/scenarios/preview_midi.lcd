@@ -1,0 +1,58 @@
+# A step put in while stopped is heard for a moment and then stops (it used to sound until something stopped it);
+# MIDI channel 10 plays the drums, as the manual says, and a channel past the tracks plays nothing.
+wait 500
+expect playing 0
+# MIDI: the kick on channel 10 (note 36), on channel 1, and on channel 6 (nothing there)
+peakreset
+midi 99 24 64
+wait 300
+expect peak_db_min -40
+wait 2500
+peakreset
+midi 90 24 64
+wait 300
+expect peak_db_min -40
+wait 2500
+peakreset
+midi 95 24 64
+wait 300
+expect peak_db_max -45
+turn SELECT -3
+turn SELECT 1
+expect view 1
+# the synth tracks, one after the other: a step in, heard, then quiet
+peakreset
+tapkey w5
+wait 150
+expect peak_db_min -40
+wait 1500
+peakreset
+wait 600
+expect peak_db_max -45
+turn ALGO 1
+peakreset
+tapkey w5
+wait 150
+expect peak_db_min -40
+wait 1500
+peakreset
+wait 600
+expect peak_db_max -45
+turn ALGO 1
+peakreset
+tapkey w5
+wait 150
+expect peak_db_min -40
+wait 1500
+peakreset
+wait 600
+expect peak_db_max -45
+# a key played after the previews is a note of its own (not a slide from a note left on)
+peakreset
+key w2 down
+wait 200
+key w2 up
+wait 1500
+peakreset
+wait 600
+expect peak_db_max -45
